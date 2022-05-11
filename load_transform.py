@@ -33,9 +33,7 @@ def gender_boolean(row):
     
 def create_clean_df(df, columns_to_keep):
     """to use this function, call as follows: clean_df = create_clean_df(df, ['Survived', 'Pclass', 'Age', 'SibSp', 'GenderBoolean'])"""
-        clean_df = pd.DataFrame()
-        for i in columns_to_keep:
-            clean_df[i] = df[[i]]
-        return clean_df    
-    
-    
+    clean_df = pd.DataFrame()
+    for i in columns_to_keep:
+        clean_df[i] = df[[i]]
+        return clean_df
