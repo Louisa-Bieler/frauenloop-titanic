@@ -25,6 +25,8 @@ def split_set(df, size):
     """
     return train_test_split(df[['Pclass', 'Age', 'SibSp', 'Parch', 'Fare', 'not_alone','Sex_female','Embarked_Q','Embarked_S']], df['Survived'], test_size=size)
 
+X_train, X_test, y_train, y_test = split_set(df,.3)
+
 def predict_kNN(dataset, min_neighbors= 1, max_neighbors = 15, cross_val_folds=5):
     """
     k-NN algoritm and finding the best parameters for it
