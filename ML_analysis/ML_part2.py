@@ -1,10 +1,32 @@
+### Import packages
+# linear algebra
+import numpy as np 
+# data processing
+import pandas as pd 
+from sklearn.impute import SimpleImputer
+# data visualization
+import seaborn as sns
+from matplotlib import pyplot as plt
+from matplotlib import style
+# Algorithms
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import SGDClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_val_score, GridSearchCV
+from sklearn.model_selection import train_test_split
+
 def split_data(df):
     X=  df.drop(columns=['Survived']).values
     y= df['Survived'].values
     return X,y
 
 
-def train_test_split(df,size)
+def my_train_test_split(df,size):
+    X=  df.drop(columns=['Survived']).values
+    y= df['Survived'].values
     X_train, X_test, y_train, y_test = train_test_split(X,y,test_size= size)
     return X_train, X_test, y_train, y_test
 
@@ -13,6 +35,8 @@ def predict_kNN(dataset, min_neighbors= 1, max_neighbors = 15, cross_val_folds=5
     """
     k-NN algoritm and finding the best parameters for it
     """
+    X,y = split_data(dataset)
+    X_train, X_test, y_train, y_test = train_test_split(X,y,test_size= 0.3)
     param_grid = {'n_neighbors': np.arange(min_neighbors, max_neighbors)}
     knn = KNeighborsClassifier()
     knn_cv = GridSearchCV(knn, param_grid, cv=cross_val_folds)
