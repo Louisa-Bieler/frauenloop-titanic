@@ -6,7 +6,6 @@ import pandas as pd
 from sklearn.impute import SimpleImputer
 # data visualization
 import seaborn as sns
-%matplotlib inline
 from matplotlib import pyplot as plt
 from matplotlib import style
 # Algorithms
