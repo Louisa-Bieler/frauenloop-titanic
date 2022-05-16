@@ -12,6 +12,9 @@ from matplotlib import style
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import SGDClassifier
+import sklearn as sk
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.model_selection import train_test_split
@@ -31,19 +34,23 @@ def my_train_test_split(df,size):
     return X_train, X_test, y_train, y_test
 
 
+
 def predict_kNN(dataset, min_neighbors= 1, max_neighbors = 15, cross_val_folds=5):
     """
     k-NN algoritm and finding the best parameters for it
     """
     X,y = split_data(dataset)
     X_train, X_test, y_train, y_test = train_test_split(X,y,test_size= 0.3)
+
+    from sklearn.metrics import classification_report, confusion_matrix
+    X_train, X_test, y_train, y_test = split_set(dataset, 0.3)
     param_grid = {'n_neighbors': np.arange(min_neighbors, max_neighbors)}
-    knn = KNeighborsClassifier()
-    knn_cv = GridSearchCV(knn, param_grid, cv=cross_val_folds)
-    knn_cv.fit(X_train, y_train)
-    y_pred = knn_cv.predict(X_test)
-    print(knn_cv.best_params_)
-    print(knn_cv.best_score_)
+    sk.knn = KNeighborsClassifier()
+    sk.knn_cv = GridSearchCV(sk.knn, param_grid, cv=cross_val_folds)
+    sk.knn_cv.fit(X_train, y_train)
+    y_pred = sk.knn_cv.predict(X_test)
+    print(sk.knn_cv.best_params_)
+    print(sk.knn_cv.best_score_)
     print(classification_report(y_test,y_pred))
     knn_classreport= classification_report(y_test,y_pred)
     return knn_classreport
@@ -51,16 +58,20 @@ def predict_kNN(dataset, min_neighbors= 1, max_neighbors = 15, cross_val_folds=5
 
 def predict_logreg(dataset):
     """Logistic Regression algorithm"""
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.metrics import classification_report, confusion_matrix
+    X_train, X_test, y_train, y_test = split_set(dataset, 0.3)
     logreg=LogisticRegression()
     logreg.fit(X_train, y_train)
     y_pred=logreg.predict(X_test)
     print(classification_report(y_test,y_pred))
-    logreg_classresport=classification_report(y_test,y_pred)
-    return log_classreport
+    logreg_classreport = classification_report(y_test,y_pred)
+    return logreg_classreport
 
 
 def predict_RF(dataset):
     """Random Forest  - finding the best hyperparameters"""
+    X_train, X_test, y_train, y_test = split_set(dataset, 0.3)
     rf=RandomForestClassifier()
     params_rf={'criterion':['gini','entropy'],'n_estimators':[100,200], 'max_depth':[3,4,5], 'min_samples_leaf':[1,2,3,5],'min_samples_split':[2,3,4,5], 'max_features':['auto','log2']}
     grid_rf=GridSearchCV(estimator=rf, param_grid=params_rf,cv=10, n_jobs=-1)
@@ -72,6 +83,7 @@ def predict_RF(dataset):
 
 
 def bestRF(dataset):
+    X_train, X_test, y_train, y_test = split_set(dataset, 0.3)
     """Running Random Forest algorithm with the best hyperparameters"""
     rf_bestmodel=RandomForestClassifier(criterion='entropy', max_depth=3, max_features='auto', min_samples_leaf=3, min_samples_split=5, n_estimators=100, class_weight='balanced')
     rf_bestmodel.fit(X_train,y_train)

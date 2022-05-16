@@ -16,7 +16,6 @@ import sklearn
 def load_explore(csv_file):
     """to use this function, call as follows: df = load_explore('train.csv')"""
     df = pd.read_csv(csv_file, index_col='PassengerId')
-    print(df.head(), df.shape, df.dtypes, df.describe(), df.isna().sum() * 100 / len(df))
     return df
 
 
