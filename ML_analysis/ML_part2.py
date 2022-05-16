@@ -1,9 +1,13 @@
-def split_set(df, size):
-    """
-    df: Dataframe to split
-    size: proportion to data to allocate to validation set (same as train_test_split's test_size)
-    """
-    return train_test_split(df[['Pclass', 'Age', 'SibSp', 'Parch', 'Fare', 'not_alone','Sex_female','Embarked_Q','Embarked_S']], df['Survived'], test_size=size)
+def split_data(df):
+    X=  df.drop(columns=['Survived']).values
+    y= df['Survived'].values
+    return X,y
+
+
+def train_test_split(df,size)
+    X_train, X_test, y_train, y_test = train_test_split(X,y,test_size= size)
+    return X_train, X_test, y_train, y_test
+
 
 def predict_kNN(dataset, min_neighbors= 1, max_neighbors = 15, cross_val_folds=5):
     """
@@ -20,6 +24,7 @@ def predict_kNN(dataset, min_neighbors= 1, max_neighbors = 15, cross_val_folds=5
     knn_classreport= classification_report(y_test,y_pred)
     return knn_classreport
 
+
 def predict_logreg(dataset):
     """Logistic Regression algorithm"""
     logreg=LogisticRegression()
@@ -28,6 +33,7 @@ def predict_logreg(dataset):
     print(classification_report(y_test,y_pred))
     logreg_classresport=classification_report(y_test,y_pred)
     return log_classreport
+
 
 def predict_RF(dataset):
     """Random Forest  - finding the best hyperparameters"""
@@ -39,6 +45,7 @@ def predict_RF(dataset):
     print('Best hyperparameters\n', best_hyper_rf)
     print('Best Score: %s' % grid_rf.best_score_)
     return best_hyper_rf
+
 
 def bestRF(dataset):
     """Running Random Forest algorithm with the best hyperparameters"""
